@@ -9,22 +9,27 @@ function Todo() {
  
 
 
-    function sendData(){
+   async function sendData(){
+        const formData = new FormData();
       if (value =='') {
             message.error('Проверьте правильность введенных данных')
       } else {
         
         message.success('Задача успешно добавлена')
-        const newTodo = {
+        const todo = {
             id: (new Date).getTime(),
             list: value,
             active:false
         }
-        setTodo((prev)=>[...prev,newTodo]);    
+       setTodo((prev)=>[...prev,todo]);  
         setValue('')
-      }
+
+        await axios
+        .post('http://localhost:2000/', todo) 
+        .then(() => console.log('Успешно'))
+        .catch((err) => console.log(err)); 
         }
-  
+    }
 
   return (
     //пока данные отображаются со стейта, в дальнейшем будет из базы данных

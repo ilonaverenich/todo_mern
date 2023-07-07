@@ -1,0 +1,4 @@
+{
+    "PORT": 2000,
+    "mongoUrl":"mongodb+srv://ilonaverenich:CiCvsYz7KuoJKMan@cluster0.gkclzup.mongodb.net/MERN"
+}

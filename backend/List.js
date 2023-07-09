@@ -1,11 +1,11 @@
-const {Schema} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const listSchema = Schema ({
-    
-    id: Number,
-    list: String,
-    active: Boolean
+const listSchema = new Schema({
+  id: String,
+  list: String,
+  active: Boolean
+});
 
-})
+const Todo = model('Todo', listSchema);
 
-exports.listSchema = {listSchema}
+module.exports = Todo;

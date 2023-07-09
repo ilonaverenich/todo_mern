@@ -4,28 +4,64 @@ const config = require('config');
 const mongoose = require('mongoose')
 const app = express();
 const cors = require('cors');
-const listSchema = require('./List')
+const Todo = require('./List')
 app.use(cors())
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/home',(req,res)=>{
  console.log('Приветики')
  res.send('Стартовая страница')
 })
-const Todo = mongoose.model('todo',listSchema)
-mongoose.connect('mongodb+srv://ilonaverenich:CiCvsYz7KuoJKMan@cluster0.gkclzup.mongodb.net/MERN').then(()=>console.log('База данных подключена')).catch((err)=>console.log('Возникла ошибка с подключением к Базе данных'))
 
-app.post('/', (req, res) => {
-    const todo = req.body;
-    try {
-        
 
-    }
-    catch {
+mongoose
+  .connect('mongodb+srv://ilonaverenich:CiCvsYz7KuoJKMan@cluster0.gkclzup.mongodb.net/MERN', {
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('База данных подключена'))
+  .catch((err) => console.log('Возникла ошибка с подключением к базе данных', err));
 
-    }
-
-    console.log(todo);
+  app.use('/delete', (req, res) => {
+    const { id } = req.body;
+    console.log(id);
+    Todo.deleteOne({ id: id })
+      .then(result => {
+        console.log('Запись успешно удалена', result);
+        res.send('Запись успешно удалена');
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send('Ошибка при удалении записи');
+      });
   });
 
-app.listen(config.get('PORT'),()=>console.log('server has been started'))
+  app.use('/update',(req,res)=>{
+    const {value, id} = req.body;
+    Todo.updateOne({id:id}, {list:value, }).then(result=>console.log('Успешно изменено значение',result))
+    Todo.find({id:id}).then(el=>console.log(el))
+  })
+
+
+app.post('/', (req, res) => {
+    const {id, list, active} = req.body;
+    console.log(id,list,active)
+
+     Todo.create({
+        id: id,
+        list: list,
+        active: active
+      }).then(()=>{
+        console.log('запись добавлена')
+      
+      }) 
+     
+  });
+
+
+  app.get('/',(req,res)=>{
+   Todo.find().then((todos) => res.send(todos));
+  })
+
+  
+app.listen('2000',()=>console.log('server has been started'))

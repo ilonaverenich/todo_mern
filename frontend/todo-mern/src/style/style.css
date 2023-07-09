@@ -45,3 +45,22 @@ h1{
 .block-todo{
     margin: 30px;
 }
+.input-change{
+    display: block;
+    width: 210px;
+    margin-right: 20px;
+}
+.yes{
+    text-decoration: line-through;
+    color: aquamarine;
+}
+.no{
+    text-decoration:none
+}
+.icon{
+    cursor: pointer;
+    
+}
+.icon:hover{
+    box-shadow: inset  0px 0px 6px  rgb(255, 77, 0);
+}

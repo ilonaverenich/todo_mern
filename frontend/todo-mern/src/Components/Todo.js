@@ -1,59 +1,80 @@
-import {Input,Button,message, List} from 'antd';
-import {useState,useEffect,useRef} from 'react';
+import { Input, Button, message, List } from 'antd';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ListItem from './ListItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { getData, setStatus } from '../redux/mainReducer';
 
 function Todo() {
-    const [value, setValue] = useState('')
-    const [todo, setTodo] = useState([])
-    const [state,setState] = useState(false)
-    const [data,setData] = useState([])
-    const inputRef = useRef(null)
+  const dispatch = useDispatch();
+  const status = useSelector((store) => store.data.status);
+  const datas = useSelector((store) => store.data.data);
+  const [value, setValue] = useState('');
 
-    useEffect(()=>{
-      inputRef.current.focus();
-      axios
-        .get('http://localhost:2000/')
-        .then(res=>setData(res.data))
-        .catch(err=>console.log(err))
-        console.log(data)
-    },[state])
- 
+  const inputRef = useRef(null);
+  console.log(datas);
+  useEffect(() => {
+    inputRef.current.focus();
 
-   async function sendData(){
-    
-      if (value == '') {
-        message.error('Проверьте правильность введенных данных')
-      } else {
-        message.success('Задача успешно добавлена')
-        const todo = {
-          id: (new Date).getTime(),
-          list: value,
-          active:false
-        }
-    setTodo((prev)=>[...prev,todo]);  
-    setValue('')
-    
-    await axios
-      .post('http://localhost:2000/', todo) 
-      .then(() => console.log('Успешно'))
-      .catch((err) => console.log(err)); 
-      }
+    axios
+      .get('http://localhost:5000/')
+      .then((res) => dispatch(getData(res.data)))
+      .catch((err) => console.log(err));
+  }, [status]);
+
+  async function sendData() {
+    if (value == '') {
+      message.error('Проверьте правильность введенных данных');
+    } else {
+      const todo = {
+        id: new Date().getTime(),
+        list: value,
+        active: false,
+      };
+
+      setValue('');
+      dispatch(setStatus());
+
+      await axios
+        .post('http://localhost:5000/', todo)
+        .then(() => console.log('все ок'))
+        .catch((err) => console.log(err));
     }
-      
+  }
+
   return (
-    //пока данные отображаются со стейта, в дальнейшем будет из базы данных
-    <div className='content'>
-    <h1>Todo list</h1>
-     <Input className='input' ref={inputRef}  value={value} onChange={(e)=>setValue(e.target.value)}/>
-     <Button className='btn btn-send' onClick={()=>sendData()}> Добавить </Button>
+    <div className="content">
+      <h1>Список дел</h1>
+      <Input
+        className="input"
+        ref={inputRef}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <Button className="btn btn-send" onClick={() => sendData()}>
+        Добавить{' '}
+      </Button>
 
-    <div className='block-todo'>
-        <ol>{data && data.map((item)=> <ListItem item={item}/>)} </ol> 
+      <div className="block-todo">
+        <ol>{datas && datas.map((item) => <ListItem item={item} />)} </ol>
+      </div>
+      <div>
+        <p>
+          <span className="done">
+            Выполнено: {datas.filter((el) => el.active).length} -{' '}
+            {((datas.filter((el) => el.active).length / datas.length) * 100).toFixed(1)}%
+          </span>
+        </p>
+        <p>
+          <span className="red">
+            Осталось: {datas.length - datas.filter((el) => el.active).length} -{' '}
+            {100 - ((datas.filter((el) => el.active).length / datas.length) * 100).toFixed(1)}%{' '}
+          </span>
+        </p>
+        <p className="all"> Всего задач: {datas.length} - 100% </p>
+      </div>
     </div>
-    </div>
-  )  
+  );
 }
-     
 
-export default Todo
+export default Todo;

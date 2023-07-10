@@ -1,66 +1,79 @@
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300&family=Roboto:wght@300;500&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-   
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
-.main {
-    width: 100%;
-        height: 100vh;
-    background: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
+ol {
+  font-size: 18px;
+}
+li {
+  padding: 10px;
+}
 
+.main {
+  width: 100%;
+  height: 100vh;
+
+  overflow-y: scroll;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
-h1{
-    text-align: center;
-    padding-bottom: 15px;
+h1 {
+  text-align: center;
+  padding: 40px;
 }
 .content {
-
-
-    margin:20px auto;
+  margin: 20px auto;
 }
-.input{
-    width: 400px;
-    font-size: 15px;
-    margin-right: 20px;
-    box-shadow: 0px 0px 10px  rgb(255, 255, 0);
+.input {
+  width: 400px;
+  font-size: 15px;
+  margin-right: 20px;
+  box-shadow: 0px 0px 10px rgb(255, 255, 0);
 }
 .input:focus {
-    box-shadow:  0px 0px 10px  rgb(39, 255, 1);
+  box-shadow: 0px 0px 10px rgb(39, 255, 1);
 }
-.btn{
-    width: 100px;
+.btn {
+  width: 100px;
 }
 .btn-send {
-    background: rgb(244, 252, 138);
+  background: rgb(244, 252, 138);
 }
-.btn-delete{
-    margin: 5px 10px;
+.btn-delete {
+  margin: 5px 10px;
 }
-.block-todo{
-    margin: 30px;
+.block-todo {
+  margin: 30px;
 }
-.input-change{
-    display: block;
-    width: 210px;
-    margin-right: 20px;
+.input-change {
+  display: block;
+  width: 210px;
+  margin-right: 20px;
 }
-.yes{
-    text-decoration: line-through;
-    color: aquamarine;
+.yes {
+  text-decoration: line-through;
+  color: rgb(204, 255, 0);
 }
-.no{
-    text-decoration:none
+.no {
+  text-decoration: none;
 }
-.icon{
-    cursor: pointer;
-    
+.icon {
+  cursor: pointer;
 }
-.icon:hover{
-    box-shadow: inset  0px 0px 6px  rgb(255, 77, 0);
+.icon:hover {
+  box-shadow: inset 0px 0px 6px rgb(255, 77, 0);
+}
+.done {
+  color: rgb(117, 221, 177);
+}
+.all {
+  color: rgb(255, 255, 255);
+}
+.red {
+  color: rgb(253, 177, 177);
 }
